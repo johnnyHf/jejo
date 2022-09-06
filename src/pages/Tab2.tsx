@@ -18,8 +18,6 @@ import {
 import React, { useState } from 'react';
 import { usePhotoGallery, UserPhoto } from '../hooks/usePhotoGallery';
 
-// other imports
-import ExploreContainer from '../components/ExploreContainer';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {
