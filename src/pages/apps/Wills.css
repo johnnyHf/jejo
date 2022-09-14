@@ -1,0 +1,25 @@
+.will-mark-wrapper {
+    padding: 7px 0;
+}
+
+.will-mark {
+    margin: 0;
+    text-align: center;
+}
+
+.will-menu-todo .action-sheet-button-inner, .will-menu-todo .action-sheet-icon {
+    text-align: center;
+    color: orange;
+}
+
+
+.will-menu-delete .action-sheet-button-inner, .will-menu-delete .action-sheet-icon {
+    text-align: center;
+    color: lightcoral;
+}
+
+
+.will-menu-finish .action-sheet-button-inner, .will-menu-finish .action-sheet-icon {
+    text-align: center;
+    color: lightseagreen;
+}

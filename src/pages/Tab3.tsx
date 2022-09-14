@@ -1,7 +1,9 @@
 import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import './Tab3.css';
 import axios from 'axios';
-import ExploreContainer from "../components/ExploreContainer";
+import Clock from "@uiw/react-clock";
+import {Button, ButtonGroup, Divider, Dropdown, Menu} from "uiw";
+
 const Tab3: React.FC = () => {
     let nnq = "";
 
@@ -11,6 +13,7 @@ const Tab3: React.FC = () => {
     }).catch(err => {
         console.log(err)
     })
+
     return (
         <IonPage>
             <IonHeader>
@@ -24,7 +27,7 @@ const Tab3: React.FC = () => {
                         <IonTitle size="large"></IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <ExploreContainer name="1212"></ExploreContainer>
+                <Clock style={{backgroundColor: "lightcyan"}} />
             </IonContent>
         </IonPage>
     );

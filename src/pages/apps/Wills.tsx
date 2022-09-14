@@ -1,35 +1,73 @@
 import './Wills.css';
 import React from "react";
 import {
-    IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle,
     IonCol,
     IonContent, IonFab, IonFabButton,
-    IonHeader, IonIcon, IonImg,
+    IonHeader, IonIcon,
     IonPage, IonRow,
     IonTitle,
-    IonToolbar
+    IonToolbar, useIonActionSheet
 } from '@ionic/react';
-import {Avatar, Badge, Card, Icon} from 'uiw';
-import {useAppGallery} from "../../hooks/useAppGallery";
+import {Avatar, Badge, Button, Card, Notify} from 'uiw';
 import {UserWill, useWillGallery} from "../../hooks/useWillGallery";
 import {add} from "ionicons/icons";
+import { mailUnreadOutline, trash, checkmarkOutline, heart, close } from 'ionicons/icons';
+import {Link} from "react-router-dom";
+
 const Wills: React.FC = () => {
-    const footer = (will : UserWill) => (
-        <a href="https://uiwjs.github.io">
-            <span style={{ marginRight: 24 }}>
-              <Avatar src={ will.createPortrait } />
+    const {wills} = useWillGallery();
+    const [present, dismiss] = useIonActionSheet();
+
+    const openMenu = (will: UserWill) => {
+        present({
+            buttons: [{
+                text: '待办',
+                cssClass: 'will-menu-todo',
+                icon: mailUnreadOutline,
+                handler: () => {
+                    console.log('待办');
+                    Notify.info({ title: '待办通知', description: `${will.creater}的愿望(${will.desc})在等候中！`, duration: 2});
+                }
+            },{
+                text: '废弃',
+                cssClass: 'will-menu-delete',
+                icon: trash,
+                handler: () => {
+                    Notify.warning({ title: '废弃通知', description: `${will.creater}的愿望(${will.desc})已经废弃！`, duration: 2});
+                }
+            },{
+                text: '完成',
+                cssClass: 'will-menu-finish',
+                icon: checkmarkOutline,
+                handler: () => {
+                    Notify.success({ title: '成功通知', description: `${will.creater}的愿望(${will.desc})已经完成！`, duration: 2});
+                }
+            }],
+            header: `${will.desc} (${will.creater})`
+        })
+    }
+
+    const footer = (will: UserWill) => (
+        <span>
+            <span style={{marginRight: 24}}>
+              <Avatar shape="square" src={will.createPortrait}/>
             </span>&nbsp;
-            { will.creater }
-        </a>
+            {will.creater}
+            <span style={{float: "right"}}>
+                <Button
+                    icon="more"
+                    // @ts-ignore
+                    onClick={function () {
+                        openMenu(will);
+                    }}
+                />
+            </span>
+        </span>
     )
-    const headerExtra = (will : UserWill) => (
-        <div style={{ color: 'green', fontWeight: "bold" }}>
-            <Icon type="check" />
-        </div>
-
+    const headerExtra = (will: UserWill) => (
+        // @ts-ignore
+        <Badge count={will.status.state} style={{backgroundColor: will.status.color}}/>
     )
-
-    const { wills } = useWillGallery();
 
     return (
         <IonPage>
@@ -41,20 +79,23 @@ const Wills: React.FC = () => {
             <IonContent fullscreen>
                 <IonRow>
                     {wills.map((will, index) => (
-                        <IonCol size-lg="2" size-md="3" size-sm="4" size-xs="6"  key={index}>
+                        // @ts-ignore
+                        <IonCol size-lg="2" size-md="3" size-sm="4" size-xs="6" key={index}>
                             <Card
-                                title={ will.desc }
-                                footer={ footer(will) }
+                                title={will.desc}
+                                footer={footer(will)}
                                 // style={{ width: 240 }}
-                                bodyStyle={{ padding: 0 }}
-                                extra={ headerExtra(will) }
+                                bodyStyle={{padding: 0}}
+                                extra={headerExtra(will)}
                             >
-                                <div>
-                                    <img alt="example" width="100%" src={ will.img } />
-                                </div>
-                                <div style={{ padding: `10px 16px` }}>
-                                    <h3 style={{margin:0}}>{ will.mark }</h3>
-                                    {/*<p style={{margin:0}}><a href="https://uiwjs.github.io">https://uiwjs.github.io</a></p>*/}
+                                <Link to={`/wills/${will.id}`}>
+                                    <div>
+                                        <img alt="礼物" src={will.img}/>
+                                    </div>
+                                </Link>
+
+                                <div className={'will-mark-wrapper'}>
+                                    <h5 className={"will-mark"}>{will.mark}</h5>
                                 </div>
                             </Card>
                         </IonCol>
@@ -62,7 +103,7 @@ const Wills: React.FC = () => {
                 </IonRow>
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
                     <IonFabButton>
-                        <IonIcon icon={add} />
+                        <IonIcon icon={add}/>
                     </IonFabButton>
                 </IonFab>
             </IonContent>

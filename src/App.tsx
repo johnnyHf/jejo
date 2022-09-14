@@ -34,6 +34,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Wills from "./pages/apps/Wills";
+import WillsDetail from "./pages/apps/WillsDetail";
 
 setupIonicReact();
 
@@ -57,6 +58,7 @@ const App: React.FC = () => (
           <Route exact path="/wills">
             <Wills />
           </Route>
+          <Route path={`/wills/:id`} component={WillsDetail} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">

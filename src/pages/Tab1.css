@@ -1,4 +1,22 @@
-.ionicImg {
-    background-size: cover;
-    height: 150px
+.title {
+    font-weight: bold;
+}
+
+.logo {
+    width: 60%;
+    margin: 10px 20% 0 20%
+}
+
+.footer-mark {
+    padding: 0 10px 0 10px;
+    text-indent: 1rem;
+}
+
+.mark {
+    padding: 5px;
+}
+
+.link {
+    text-decoration-line: none;
+    color: black
 }
